@@ -1,0 +1,37 @@
+image: python:3.11
+
+stages:
+  - build
+  - qualidade_codigo
+  - test
+
+instalar_dependencias:
+  stage: build
+  script:
+    - python -m venv .venv
+    - source .venv/bin/activate
+    - pip install -r requirements.txt
+  artifacts:
+    paths:
+      - .venv/
+    expire_in: 1h
+
+lintar_codigo:
+  stage: qualidade_codigo
+  dependencies:
+    - instalar_dependencias
+  before_script:
+    - source .venv/bin/activate
+    - export PYTHONPATH=$PYTHONPATH:$CI_PROJECT_DIR/src
+  script:
+    - flake8 src tests
+
+executar_testes:
+  stage: test
+  dependencies:
+    - instalar_dependencias
+  before_script:
+    - export PYTHONPATH=$PYTHONPATH:$CI_PROJECT_DIR/src
+  script:
+    - source .venv/bin/activate
+    - pytest tests/
