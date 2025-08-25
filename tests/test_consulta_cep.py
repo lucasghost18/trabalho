@@ -1,5 +1,6 @@
 from consulta_cep.consulta_cep import buscar_endereco, formatar_endereco_completo
 
+
 def test_buscar_endereco_sucesso(mocker):
     mock_response = mocker.Mock()
     mock_response.status_code = 200
@@ -35,6 +36,7 @@ def test_buscar_endereco_formato_invalido():
 
 
 # --------- NOVOS TESTES DA NOVA FUNÇÃO ---------
+
 
 def test_formatar_endereco_completo_sucesso(mocker):
     mock_response = mocker.Mock()
